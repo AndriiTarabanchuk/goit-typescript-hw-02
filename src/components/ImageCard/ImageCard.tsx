@@ -1,26 +1,28 @@
 import css from "./ImageCard.module.css";
-
 interface Item {
-  item: {
-    id: string;
-    img: string;
-    alt_description: string;
-    urls: {
-      small: string;
-    };
-    updated_at: string;
-    likes: number;
+  id: string;
+  alt_description: string;
+  img: string;
+  urls: {
+    small: string;
+    regular: string;
   };
-  setItemClickGallery: (item: Item["item"]) => void; // Додано тип для функції
-  setIsModalOpen: (isOpen: boolean) => void; // Додано тип для функції
+  updated_at: string;
+  likes: number;
 }
 
-const ImageCard: React.FC<Item> = ({
+interface PropsImageCard {
+  item: Item;
+  setItemClickGallery: (item: Item) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
+}
+
+const ImageCard: React.FC<PropsImageCard> = ({
   item,
   setItemClickGallery,
   setIsModalOpen,
 }) => {
-  const handleClick = (item: Item["item"]) => {
+  const handleClick = (item: Item) => {
     setItemClickGallery(item);
     setIsModalOpen(true);
   };

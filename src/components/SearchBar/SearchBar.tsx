@@ -7,7 +7,6 @@ import toast, { Toaster } from "react-hot-toast";
 interface PropsSearchBar {
   setQuery: (query: string) => void;
   messageError: string;
-  setMessageError: (message: string) => void;
   isError: boolean;
   setIsError: (isError: boolean) => void;
 }
@@ -15,7 +14,6 @@ interface PropsSearchBar {
 const SearchBar: React.FC<PropsSearchBar> = ({
   setQuery,
   messageError,
-  setMessageError,
   isError,
   setIsError,
 }) => {
@@ -37,7 +35,7 @@ const SearchBar: React.FC<PropsSearchBar> = ({
 
   function handleKeyPress(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
-      event.preventDefault(); // відміна дії за замовчуванням
+      event.preventDefault();
     }
   }
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {

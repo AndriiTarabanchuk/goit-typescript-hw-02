@@ -296,7 +296,6 @@ function App() {
       <SearchBar
         setQuery={handleSearch}
         messageError={messageError}
-        setMessageError={setMessageError}
         isError={isError}
         setIsError={setIsError}
       />

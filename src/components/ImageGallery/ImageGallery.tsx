@@ -15,7 +15,17 @@ interface Item {
 
 interface Gallery {
   items: Item[];
-  setItemClickGallery: (item: Item) => void;
+  setItemClickGallery: (item: {
+    id: string;
+    alt_description: string;
+    img: string;
+    urls: {
+      small: string;
+      regular: string;
+    };
+    updated_at: string;
+    likes: number;
+  }) => void;
   setIsModalOpen: (isOpen: boolean) => void;
 }
 
