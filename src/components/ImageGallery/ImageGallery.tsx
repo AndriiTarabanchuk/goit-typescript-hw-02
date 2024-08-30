@@ -13,23 +13,13 @@ interface Item {
   likes: number;
 }
 
-interface Gallery {
+interface PropsImageGallery {
   items: Item[];
-  setItemClickGallery: (item: {
-    id: string;
-    alt_description: string;
-    img: string;
-    urls: {
-      small: string;
-      regular: string;
-    };
-    updated_at: string;
-    likes: number;
-  }) => void;
+  setItemClickGallery: (item: Item) => void;
   setIsModalOpen: (isOpen: boolean) => void;
 }
 
-const ImageGallery: React.FC<Gallery> = ({
+const ImageGallery: React.FC<PropsImageGallery> = ({
   items,
   setItemClickGallery,
   setIsModalOpen,
