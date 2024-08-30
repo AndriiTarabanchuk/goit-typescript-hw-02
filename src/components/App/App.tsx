@@ -31,17 +31,7 @@ function App() {
   const [query, setQuery] = useState<string>("");
   const [photos, setPhotos] = useState<Item[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [itemClickGallery, setItemClickGallery] = useState<Item>({
-    id: "",
-    alt_description: "",
-    updated_at: "",
-    img: "",
-    urls: {
-      regular: "",
-      small: "",
-    },
-    likes: 0,
-  } as Item);
+  const [itemClickGallery, setItemClickGallery] = useState<Item | null>(null);
   const [totalPages, setTotalPages] = useState<number | null>(null);
   const [isShowLoader, setIsShowLoader] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
@@ -58,45 +48,36 @@ function App() {
       //   inline: "center",
       // });
     }
-    if (photos.length < 1) {
+    if (photos?.length < 1 && query !== "") {
       setIsError(true);
       setMessageError(message.errorFetch);
       setIsShowLoader(false);
     }
   }, [photos, page]);
+
   useEffect(() => {
-    let isMounted = true;
     const getData = async () => {
       if (query === "") return;
       try {
         setIsError(false);
         setIsShowLoader(true);
         const response: Response = await fetchData({ url, query, page });
-        console.log(response);
-        if (isMounted) {
-          if (page === 1) {
-            setPhotos(response.results);
-          } else {
-            setPhotos((pref) => [...pref, ...response.results]);
-          }
-          setTotalPages(response.total_pages);
+        if (page === 1) {
+          setPhotos(response.results);
+        } else {
+          setPhotos((pref) => [...pref, ...response.results]);
         }
+        setTotalPages(response.total_pages);
       } catch (error) {
         console.log(error);
-        if (isMounted) {
-          setIsError(true);
-          setMessageError(message.errorFetch);
-        }
+
+        setIsError(true);
+        setMessageError(message.errorFetch);
       } finally {
-        if (isMounted) {
-          setIsShowLoader(false);
-        }
+        setIsShowLoader(false);
       }
     };
     getData();
-    return () => {
-      isMounted = false;
-    };
   }, [query, page, url]);
 
   function handleSearch(query: string) {
@@ -105,6 +86,7 @@ function App() {
     setQuery(query);
     setIsError(false);
   }
+
   return (
     <div className={css.root}>
       <SearchBar
@@ -130,6 +112,7 @@ function App() {
             itemClickGallery={itemClickGallery}
           />
         )}
+
         {photos.length > 0 &&
           page !== totalPages &&
           !isError &&
